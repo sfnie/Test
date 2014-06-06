@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 选择范围配置 -->
+<SelectRanges>
+    
+    <!-- 定义选择范围 -->
+    <SelectRange>
+        <!-- 名称 -->
+        <name>xzqh</name>
+        <!-- 描述 -->
+        <description>行政区划</description>
+        <!-- 表名 -->
+        <table>T_BZGB_XZQH</table>
+        <!-- 值字段 -->
+        <value-column>xzqhdm</value-column>
+        <!-- 显示文本字段 -->
+        <label-column>xzqhmc</label-column>
+        <!-- 全显示文本字段 -->
+        <label-full-column>jc2</label-full-column>
+        <!-- 层级 -->
+        <parent-defines>
+            <!-- 第一个为默认层级名称 -->
+            <parent-define>ls</parent-define>
+        </parent-defines>
+        <cascades>
+            <!-- 级联名称:级联字段 -->
+            <cascade>cc</cascade>
+        </cascades>
+        <order>wid</order>
+    </SelectRange>
+    
+    <SelectRange>
+        <!-- 名称 -->
+        <name>dsjbxx</name>
+        <!-- 描述 -->
+        <description>
+            导师基本信息(此选择范围不支持级联情况)
+        </description>
+        <!-- 实现类 -->
+        <class-define>org.ratchetgx.orion.widgets.selectrange.impl.Dsjbxx</class-define>
+        <!-- 层级 -->
+        <parent-defines>
+            <parent-define>szyx</parent-define>
+        </parent-defines>
+        
+    </SelectRange>
+    
+    <SelectRange>
+        <!-- 名称 -->
+        <name>ssxxxx</name>
+        <!-- 描述 -->
+        <description>
+            省市学校信息(此选择范围不支持级联情况)
+        </description>
+        <!-- 实现类 -->
+        <class-define>org.ratchetgx.orion.widgets.selectrange.impl.Ssxxxx</class-define>
+        <!-- 层级 -->
+        <parent-defines>
+            <parent-define>szss</parent-define>
+        </parent-defines>
+        
+    </SelectRange>
+    
+    
+      <!-- 定义选择范围 -->
+    <SelectRange>
+        <!-- 名称 -->
+        <name>yyw_3</name>
+        <!-- 描述 -->
+        <description>第一个下拉树</description>
+        <!-- 表名 -->
+        <table>yyw_3</table>
+        <!-- 值字段 -->
+        <value-column>id</value-column>
+        <!-- 显示文本字段 -->
+        <label-column>name</label-column>
+        <!-- 全显示文本字段 -->
+        <label-full-column>qc</label-full-column>
+        <!-- 层级 -->
+        <parent-defines>
+            <!-- 第一个为默认层级名称 -->
+            <parent-define>ls</parent-define>
+        </parent-defines>
+        <cascades>
+            <!-- 级联名称:级联字段 -->
+            <cascade>cc</cascade>
+        </cascades>
+    </SelectRange>
+    
+</SelectRanges>

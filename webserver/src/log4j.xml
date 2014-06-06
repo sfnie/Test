@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//LOGGER" "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <!-- Appenders -->
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">
+        <param name="Target" value="System.out" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-d{yyyy-MM-dd HH:mm:ss} %5p %c{1}:%L - %m%n" />
+        </layout>
+    </appender>
+        
+    <appender name="logFile" class="org.apache.log4j.RollingFileAppender">    
+        <!-- 设置日志输出文件名 -->       
+        <param name="File" value="${LOGSDIR}/orion_log.log" />
+        <!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->    
+        <param name="Append" value="true" />    
+        <param name="MaxFileSize" value="3MB" />    
+        <param name="MaxBackupIndex" value="10" />    
+        <layout class="org.apache.log4j.PatternLayout">    
+            <param name="ConversionPattern" value="%-d{yyyy-MM-dd HH:mm:ss} %5p %c{1}:%L - %m%n" />    
+        </layout>    
+    </appender>    
+
+    <!-- 3rdparty Loggers -->
+    <logger name="org.springframework.core">
+        <level value="info" />
+    </logger>
+
+    <logger name="org.springframework.beans">
+        <level value="info" />
+    </logger>
+	
+    <logger name="org.springframework.context">
+        <level value="info" />
+    </logger>
+
+    <logger name="org.springframework.web">
+        <level value="info" />
+    </logger>
+        
+    <!-- 师生服务框架 -->
+    <logger name="org.ratchetgx.orion.common">
+        <level value="debug" />
+    </logger>
+    
+    <logger name="org.ratchetgx.orion.security">
+        <level value="debug" />
+    </logger>
+    
+    <logger name="org.ratchetgx.orion.module">
+        <level value="debug" />
+    </logger>
+    
+    <logger name="org.ratchetgx.orion.ssm">
+        <level value="debug" />
+    </logger>
+    
+    <logger name="org.ratchetgx.orion.widgets">
+        <level value="debug" />
+    </logger>
+    
+    <!-- Root Logger -->
+    <root>
+        <priority value="warn" />
+        <appender-ref ref="console" />
+        <appender-ref ref="logFile" />
+    </root>
+	
+</log4j:configuration>

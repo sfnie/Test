@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+	default-lazy-init="true">
+
+	<!-- 缓存管理器 -->
+	<bean id="cacheManager"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" />
+
+	<!-- 选择范围定义 -->
+	<bean id="selectRangeDefineCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="cacheManager" />
+		<property name="cacheName" value="selectRangeDefineCache" />
+	</bean>
+
+	<!-- 选择范围值 -->
+	<bean id="selectRangeCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="cacheManager" />
+		<property name="cacheName" value="selectRangeCache" />
+	</bean>
+
+	<!-- 业务对象元数据 -->
+	<bean id="bizobjCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="cacheManager" />
+		<property name="cacheName" value="bizobjCache" />
+	</bean>
+	
+	<!-- 安全数据 -->
+	<bean id="securityCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="cacheManager" />
+		<property name="cacheName" value="securityCache" />
+	</bean>
+	
+	<!-- 日志配置缓存 -->
+	<bean id="loggerConfigCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean" >
+		<property name="cacheManager" ref="cacheManager" />
+		<property name="cacheName" value="loggerConfigCache" />
+	</bean>
+
+	<!-- 业务对象元数据缓存服务 -->
+	<bean id="bizobjCacheService" class="org.ratchetgx.orion.common.cache.BizobjCacheService">
+		<property name="bizobjCache" ref="bizobjCache" />
+	</bean>
+
+	<!-- 选择范围缓存服务 -->
+	<bean id="selectRangeCacheService" class="org.ratchetgx.orion.common.cache.SelectRangeCacheService" init-method="loadCache" lazy-init="false">
+		<property name="selectRangeDefineCache" ref="selectRangeDefineCache" />
+		<property name="selectRangeCache" ref="selectRangeCache" />
+	</bean>
+
+	<bean id="cacheAspect" class="org.ratchetgx.orion.common.cache.CacheAspect">
+		<property name="bizobjCacheService" ref="bizobjCacheService" />
+		<property name="selectRangeCacheService" ref="selectRangeCacheService" />
+	</bean>
+
+</beans>

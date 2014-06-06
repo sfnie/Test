@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<http use-expressions="true" entry-point-ref="jaccountAuthenticationEntryPoint">
+		<session-management invalid-session-url="/logout_jaccount">
+			<concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
+		</session-management>
+		<logout logout-success-url="/logout_jaccount"/>
+		<custom-filter position="FORM_LOGIN_FILTER" ref="jaccountAuthenticationFilter" />
+		<custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="ssfwFilterSecurityInterceptor" />
+	</http>
+
+	<beans:bean id="jaccountAuthenticationEntryPoint" class="org.ratchetgx.orion.security.jaccount.JaccountAuthenticationEntryPoint">
+	</beans:bean>
+    
+	<beans:bean id="jaccountAuthenticationFilter" class="org.ratchetgx.orion.security.jaccount.JaccountAuthenticationFilter">
+		<beans:property name="authenticationManager" ref="ssfwAuthenticationManager" />
+		<beans:property name="jamHelper" ref="jamHelper"></beans:property>
+                <beans:property name="authenticationSuccessHandler" ref="authenticationSuccessHandler" />
+                <beans:property name="authenticationFailureHandler" ref="authenticationFailureHandler" />
+	</beans:bean>
+    
+	<authentication-manager alias="ssfwAuthenticationManager">
+		<authentication-provider ref="jaccountAuthenticationProvider"></authentication-provider>
+	</authentication-manager>
+    
+	<beans:bean id="jaccountAuthenticationProvider" class="org.ratchetgx.orion.security.jaccount.JaccountAuthenticationProvider">
+		<beans:property name="userDetailsService" ref="ssfwUserDetailService" />
+		<beans:property name="jamHelper" ref="jamHelper"></beans:property>
+	</beans:bean>
+    
+	<beans:bean id="ssfwFilterSecurityInterceptor"
+		class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<beans:property name="authenticationManager" ref="ssfwAuthenticationManager" />
+		<beans:property name="accessDecisionManager" ref="ssfwAccessDecisionManager" />
+		<beans:property name="securityMetadataSource" ref="ssfwSecurityMetadataSource" />
+	</beans:bean>
+
+	<beans:bean id="ssfwUserDetailService" class="org.ratchetgx.orion.security.SsfwUserDetailsService">
+		<beans:property name="jdbcTemplate" ref="jdbcTemplate"></beans:property>
+	</beans:bean>
+
+	<beans:bean id="ssfwAccessDecisionManager"
+		class="org.ratchetgx.orion.security.SsfwAccessDecisionManager">
+	</beans:bean>
+
+	<beans:bean id="ssfwSecurityMetadataSource"
+		class="org.ratchetgx.orion.security.SsfwInvocationSecurityMetadataSource"
+		init-method="initResouceDefine">
+		<beans:property name="jdbcTemplate" ref="jdbcTemplate"></beans:property>
+	</beans:bean>
+    
+	<beans:bean id="jamHelper"
+		class="org.ratchetgx.orion.security.jaccount.JAccountManagerHelper">
+		<beans:property name="siteid" value="jagraduate20130107"></beans:property>
+	</beans:bean>
+        
+        <beans:bean id="authenticationSuccessHandler"
+		class="org.ratchetgx.orion.security.jaccount.JaccountAuthenticationSuccessHandler">
+		<beans:constructor-arg name="defaultTargetUrl" value="/index.do"></beans:constructor-arg>
+	</beans:bean>
+        
+        <beans:bean id="authenticationFailureHandler"
+		class="org.ratchetgx.orion.security.jaccount.JaccountAuthenticationFailureHandler">
+	</beans:bean>
+
+</beans:beans>

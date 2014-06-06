@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<global-method-security pre-post-annotations="enabled" />
+
+	<http use-expressions="true">
+		<form-login login-page="/login.jsp" default-target-url="/index.do"
+			authentication-failure-url="/login.jsp?error=true" />
+		<logout logout-success-url="/login.jsp" />
+		<remember-me />
+		<!-- 可以使用<anonymous>元素进行自定义（或禁用） -->
+		<anonymous />
+		<session-management invalid-session-url="/login.jsp">
+			<concurrency-control max-sessions="1"
+				error-if-maximum-exceeded="true" />
+		</session-management>
+		<custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="ssfwFilterSecurityInterceptor" />
+	</http>
+
+	<beans:bean id="ssfwFilterSecurityInterceptor"
+		class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<beans:property name="authenticationManager" ref="ssfwAuthenticationManager" />
+		<beans:property name="accessDecisionManager" ref="ssfwAccessDecisionManager" />
+		<beans:property name="securityMetadataSource" ref="ssfwSecurityMetadataSource" />
+	</beans:bean>
+
+	<!-- 认证管理器，实现用户认证的入口，主要实现UserDetailsService接口即可 -->
+	<authentication-manager alias="ssfwAuthenticationManager">
+		<authentication-provider user-service-ref="ssfwUserDetailService">
+			<password-encoder hash="md5" />
+		</authentication-provider>
+	</authentication-manager>
+
+	<beans:bean id="ssfwUserDetailService"
+		class="org.ratchetgx.orion.security.SsfwUserDetailsService">
+		<beans:property name="jdbcTemplate" ref="jdbcTemplate"></beans:property>
+	</beans:bean>
+
+	<!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源 -->
+	<beans:bean id="ssfwAccessDecisionManager"
+		class="org.ratchetgx.orion.security.SsfwAccessDecisionManager">
+	</beans:bean>
+
+	<!-- 资源源数据定义，即定义某一资源可以被哪些角色访问 -->
+	<beans:bean id="ssfwSecurityMetadataSource"
+		class="org.ratchetgx.orion.security.SsfwInvocationSecurityMetadataSource">
+		<beans:property name="jdbcTemplate" ref="jdbcTemplate"></beans:property>
+		<beans:property name="securityCache" ref="securityCache"></beans:property>
+	</beans:bean>
+
+</beans:beans>

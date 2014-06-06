@@ -1,0 +1,8 @@
+// XSS过滤规则文件地址，SLASHDOT，最严格的级别
+/WEB-INF/configs/antisamy/antisamy-slashdot-1.4.4.xml
+// XSS过滤规则文件地址，EBAY，第二级别
+/WEB-INF/configs/antisamy/antisamy-ebay-1.4.4.xml
+// XSS过滤规则文件地址，MYSPACE，第三的级别
+/WEB-INF/configs/antisamy/antisamy-myspace-1.4.4.xml
+// XSS过滤规则文件地址，ANYTHINGGOES，最低的级别
+/WEB-INF/configs/antisamy/antisamy-anythinggoes-1.4.4.xml"

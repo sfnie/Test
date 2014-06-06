@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<photo-handlers>
+    <photo-handler>
+        <name>defaultHandler</name>
+        <!-- 照片处理实现类 -->
+        <!--
+        <class-define>org.ratchetgx.orion.widgets.photo.impl.PhotoHandlerImpl</class-define>
+        -->
+        <!-- 照片处理bean -->
+        <bean-define>PhotoHandlerImpl</bean-define>
+        <!-- 照片验证实现类 -->
+        <!--
+        <class-validator>org.ratchetgx.orion.widgets.photo.impl.PhotoUploadValidatorImpl</class-validator>
+        -->
+        <!-- 照片验证bean -->
+        <bean-validator>PhotoUploadValidatorImpl</bean-validator>
+    </photo-handler>
+</photo-handlers>
